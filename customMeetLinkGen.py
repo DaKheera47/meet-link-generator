@@ -72,20 +72,20 @@ count = 0
 
 while True:
     t1 = time.time()
-    x, y = findImageTimeout("search.png")
+    x, y = findImageTimeout("./images/reload.png")
     pag.click(x + 100, y)
     pag.write("meet.google.com", interval=0)
     pag.press("enter")
 
-    pag.click(findImageTimeout("newMeeting.png"))
-    pag.click(findImageTimeout("plus.png"))
-    x1, y1 = findImageTimeout("recording.png")
-    x, y = findImageTimeout("search.png")
+    pag.click(findImageTimeout("./images/newMeeting.png"))
+    pag.click(findImageTimeout("./images/plus.png"))
+    x1, y1 = findImageTimeout("./images/recording.png")
+    x, y = findImageTimeout("./images/reload.png")
     pag.click(x + 100, y)
     link = getCopied()
 
     if len(link) == 36:
-        with open("links.txt", "a+") as file:
+        with open("./out/allLinks.txt", "a+") as file:
             file.write(f"{link}\n")
 
         totalSeconds += round(time.time() - t1, 3)
