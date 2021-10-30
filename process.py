@@ -12,7 +12,9 @@ with open("./out/allPossibleWordsCombined.txt", "r") as f:
 
 with open("./out/allLinks.txt", "r") as f:
     links = f.read().split("\n")
+
 t1 = time.time()
+
 for word in allWords:
     for link in links:
         if len(word) >= 4 and len(word) <= 10:
