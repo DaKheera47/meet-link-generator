@@ -1,3 +1,5 @@
+from helpers import writeToFile
+
 with open("./wordsToSearch/threeLetterWords.txt", "r") as f:
     threeWords = f.read().split("\n")
 
@@ -22,16 +24,16 @@ with open("./out/foundLinks.txt", "a+") as f:
     f.write(f"Custom 3 letter combos\n")
 i = 0
 for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
 
     for word in list(set(customThreeWords)):
+        code = link[-12:]
+        start = code[:3]
+        mid = code[4:8]
+        end = code[-3:]
         if word == start or word == end:
             i += 1
-            with open("./out/foundLinks.txt", "a+") as f:
-                f.write(f"{link} -- custom 3 letter combo\n")
+            writeToFile("./out/foundLinks.txt", "a+",
+                        f"{link} -- custom 3 letter combo\n", "w")
 print(f"{i} custom three letter words found")
 
 # writing all user defined four letter words in the middle of the link
@@ -39,12 +41,12 @@ with open("./out/foundLinks.txt", "a+") as f:
     f.write(f"\ncustomFourWords\n")
 i = 0
 for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
 
     for word in list(set(customFourWords)):
+        code = link[-12:]
+        start = code[:3]
+        mid = code[4:8]
+        end = code[-3:]
         if word == mid:
             i += 1
             with open("./out/foundLinks.txt", "a+") as f:
@@ -56,14 +58,15 @@ with open("./out/foundLinks.txt", "a+") as f:
     f.write(f"Middle\n")
 i = 0
 for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
 
     for word in list(set(fourWords)):
+        code = link[-12:]
+        start = code[:3]
+        mid = code[4:8]
+        end = code[-3:]
         if word == mid:
             i += 1
+            writeToFile()
             with open("./out/foundLinks.txt", "a+") as f:
                 f.write(f"{link} -- Middle\n")
 print(f"{i} four letter words from dictionary found")
@@ -73,12 +76,12 @@ with open("./out/foundLinks.txt", "a+") as f:
     f.write(f"Start\n")
 i = 0
 for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
 
     for word in list(set(threeWords)):
+        code = link[-12:]
+        start = code[:3]
+        mid = code[4:8]
+        end = code[-3:]
         if word == start:
             i += 1
             with open("./out/foundLinks.txt", "a+") as f:
@@ -90,12 +93,12 @@ with open("./out/foundLinks.txt", "a+") as f:
     f.write(f"End\n")
 i = 0
 for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
 
     for word in list(set(threeWords)):
+        code = link[-12:]
+        start = code[:3]
+        mid = code[4:8]
+        end = code[-3:]
         if word == end:
             i += 1
             with open("./out/foundLinks.txt", "a+") as f:
