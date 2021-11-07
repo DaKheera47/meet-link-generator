@@ -37,7 +37,7 @@ def getCopied():
     return data
 
 
-def findImageTimeout(imageUrl: str, confidence: int = 0.90):
+def findImage(imageUrl: str, confidence: int = 0.90):
     while True:
         try:
             x, y = pag.locateCenterOnScreen(
@@ -49,12 +49,21 @@ def findImageTimeout(imageUrl: str, confidence: int = 0.90):
     return (x, y)
 
 
-def findImage(imageUrl: str, confidence: int = 0.90):
-    try:
-        x, y = pag.locateCenterOnScreen(f"{imageUrl}", confidence=confidence)
-        return (x, y)
-    except TypeError:
-        return (-1, -1)
+def findImageTimeout(imageUrl: str, timeout: int = 60 * 15, confidence: int = 0.90):
+    i = 1
+    while True:
+        if i <= timeout:
+            try:
+                x, y = pag.locateCenterOnScreen(
+                    f"{imageUrl}", confidence=confidence)
+            except TypeError:
+                i += 1
+                continue
+            break
+        else:
+            return (-1, -1)
+
+    return (x, y)
 
 
 def clear():
