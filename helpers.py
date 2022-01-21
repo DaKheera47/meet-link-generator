@@ -5,6 +5,8 @@ import time
 import pyautogui as pag
 DELAY = 0.45
 
+pag.PAUSE = 0
+
 
 def getCopied():
     # delay is required as a measure to prevent `ctrl + x` mixing with the hotkey entered
@@ -38,32 +40,36 @@ def getCopied():
 
 
 def findImage(imageUrl: str, confidence: int = 0.90):
+    try:
+        x, y = pag.locateCenterOnScreen(
+            f"{imageUrl}", confidence=confidence, grayscale=True)
+    except TypeError:
+        x, y = -1, -1
+
+    return (x, y)
+
+
+def findImageTimeout(imageUrl: str, grayscale: bool = True):
     while True:
         try:
             x, y = pag.locateCenterOnScreen(
-                f"{imageUrl}", confidence=confidence, grayscale=True)
+                f"{imageUrl}", confidence=0.9, grayscale=grayscale)
         except TypeError:
             continue
-        break
+        return (x, y)
 
-    return (x, y)
-
-
-def findImageTimeout(imageUrl: str, timeout: int = 60 * 15, confidence: int = 0.90):
-    i = 1
-    while True:
-        if i <= timeout:
-            try:
-                x, y = pag.locateCenterOnScreen(
-                    f"{imageUrl}", confidence=confidence)
-            except TypeError:
-                i += 1
-                continue
-            break
-        else:
-            return (-1, -1)
-
-    return (x, y)
+    # i = 1
+    # while True:
+    #     if i <= timeout:
+    #         try:
+    #             x, y = pag.locateCenterOnScreen(f"{imageUrl}", confidence=0.9, grayscale=grayscale)
+    #         except TypeError:
+    #             i += 1
+    #             continue
+    #         break
+    #     else:
+    #         return (-1, -1)
+    # return (x, y)
 
 
 def clear():

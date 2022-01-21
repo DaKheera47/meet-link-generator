@@ -1,5 +1,3 @@
-from helpers import writeToFile
-
 with open("./wordsToSearch/threeLetterWords.txt", "r") as f:
     threeWords = f.read().split("\n")
 
@@ -34,8 +32,8 @@ for word in list(set(customThreeWords)):
         end = code[-3:]
         if word == start or word == end:
             i += 1
-            writeToFile("./out/foundLinks.txt", "a+",
-                        f"{link} -- custom 3 letter combo\n", "w")
+            with open("./out/foundLinks.txt", "a+") as f:
+                f.write(f"{link} -- custom 3 letter combo\n")
 print(f"{i} custom three letter words found")
 
 # writing all user defined four letter words in the middle of the link
@@ -73,24 +71,24 @@ for link in list(set(links)):
                     f.write(f"{link} -- customThreeWords start and end\n")
 print(f"{i} Start and end custom codes found")
 
-# writing all user defined four letter words in the middle of the link
-with open("./out/foundLinks.txt", "a+") as f:
-    f.write(f"\ncommonWords\n")
-i = 0
-for link in list(set(links)):
-    code = link[-12:]
-    start = code[:3]
-    mid = code[4:8]
-    end = code[-3:]
+# # writing all user defined four letter words in the middle of the link
+# with open("./out/foundLinks.txt", "a+") as f:
+#     f.write(f"\ncommonWords\n")
+# i = 0
+# for link in list(set(links)):
+#     code = link[-12:]
+#     start = code[:3]
+#     mid = code[4:8]
+#     end = code[-3:]
 
-    for word1 in list(set(commonWords)):
-        for word2 in list(set(commonWords)):
-            if (word1 == start and word2 == end) or (word2 == start and word1 == end):
-                print(f"{link} -- commonWords\n")
-                i += 1
-                with open("./out/foundLinks.txt", "a+") as f:
-                    f.write(f"{link} -- commonWords\n")
-print(f"{i} commonWords")
+#     for word1 in list(set(commonWords)):
+#         for word2 in list(set(commonWords)):
+#             if (word1 == start and word2 == end) or (word2 == start and word1 == end):
+#                 print(f"{link} -- commonWords\n")
+#                 i += 1
+#                 with open("./out/foundLinks.txt", "a+") as f:
+#                     f.write(f"{link} -- commonWords\n")
+# print(f"{i} commonWords")
 
 # # writing four letter words in the middle of the link
 # with open("./out/foundLinks.txt", "a+") as f:

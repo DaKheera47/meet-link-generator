@@ -13,6 +13,8 @@ with open("./out/allPossibleWordsCombined.txt", "r") as f:
 
 with open("./out/allLinks.txt", "r") as f:
     links = f.read().split("\n")
+
+
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -40,14 +42,17 @@ for i, link in enumerate(links, start=1):
     seconds = time.time() - t1
     totalTime += seconds
 
-    clear()
-    timePerLink = round(totalTime / i, 6)
+    if i % 100 == 0:
+        clear()
+        timePerLink = round(totalTime / i, 6)
 
-    eta = round(timePerLink * (len(links) - i), 3)
-    timeProcessing = round(totalTime, 3)
+        eta = round(timePerLink * (len(links) - i), 3)
+        minETA, secETA = divmod(round(eta, 3), 60)
+        minProcessing, secProcessing = divmod(round(totalTime, 3), 60)
 
-    print(f"{i} / {len(links)} links checked")
-    print(f"{timePerLink}s per link")
-    print(f"Total time processing: {timeProcessing}s")
-    print(f"Estimated time remaining: {round(eta, 3)}s")
-    print(f"Longest Word: {longestWordLen} - {longestWord}")
+        print(f"{i} / {len(links)} links checked")
+        print(f"{timePerLink}s per link")
+        print(
+            f"Total time processing: {round(minProcessing)}:{round(secProcessing)}")
+        print(f"Estimated time remaining: {round(minETA)}:{round(secETA)}")
+        print(f"Longest Word: {longestWordLen} - {longestWord}")
