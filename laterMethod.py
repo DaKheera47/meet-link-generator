@@ -48,14 +48,13 @@ while True:
     while True:
         try:
             copyX, copyY = pag.center(pag.locate("./images/copy.png", pag.screenshot(
-                region=(802, 562, 353, 50)), confidence=0.9, grayscale=True))
-            print(copyX, copyY)
+                region=(1100, 562, 353, 50)), confidence=0.9, grayscale=True))
             break
         except TypeError:
             continue
 
     tLoading = time.time() - tToLoad
-    pag.click(copyX + 802, copyY + 562)
+    pag.click(copyX + 1100, copyY + 562)
 
     # pag.click(findImageTimeout("./images/copy.png"))
 
