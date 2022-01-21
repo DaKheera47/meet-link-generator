@@ -50,6 +50,13 @@ def findImage(imageUrl: str, confidence: int = 0.90):
 
 
 def findImageTimeout(imageUrl: str, grayscale: bool = True):
+    # while True:
+    #     try:
+    #         x, y = pag.locate(
+    #             f"{imageUrl}", pag.screenshot(region=region), confidence=0.9, grayscale=grayscale)
+    #     except TypeError:
+    #         continue
+    #     return (x, y)
     while True:
         try:
             x, y = pag.locateCenterOnScreen(
