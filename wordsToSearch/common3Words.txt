@@ -122,7 +122,8 @@ nor
 fat
 dad
 bar
-logthe
+log
+the
 and
 you
 was

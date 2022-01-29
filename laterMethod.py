@@ -2,76 +2,37 @@ import pyautogui as pag
 import time
 from datetime import datetime
 import pyperclip
-from helpers import clear, findImageTimeout, findImage
+from helpers import clear, forceFind, findImage, findImageTimeout
 
-pag.PAUSE, totalSeconds, count, timePerLink = 0, 0, 0, 0
-# count = 0
-# timePerLink = 0
+pag.PAUSE, totalSeconds, count, timePerLink = 0.025, 0, 0, 0
 least = 10
+points = {
+    "newMeeting": pag.Point(x=266, y=643),
+    "cross": pag.Point(x=1147, y=477),
+}
 
 while True:
-    # starting timer for link generation
     t1 = time.time()
 
-    if count == 0:
-        x1, y1 = findImageTimeout("./images/newMeeting.png", grayscale=True)
-        pag.moveTo(x1, y1, duration=0.2, tween=pag.easeInElastic)
-        pag.doubleClick(x1, y1)
-    else:
-        pag.moveTo(x1, y1, duration=0.2, tween=pag.easeInElastic)
-        pag.doubleClick()
-        # pag.press("enter", presses=2)
-        # pag.press("tab", presses=1)
-        # pag.hotkey("shift", "tab")
-        # pag.press("tab", presses=7)
-
-    # creating a new meeting
-    # pag.doubleClick(findImageTimeout(
-    #     "./images/newMeeting.png", grayscale=False))
-    # pag.click(findImageTimeout("./images/link.png"))
-
-    # if findImage("./images/couldntGet.png") != (-1, -1):
-    #     # exists
-    #     pag.click(x, y)
-    #     continue
-
-    # time.sleep(0.5)
-    # Point(x=802, y=562)
-    # Point(x=1155, y=613)
-    link = pyperclip.paste()
-    if len(link) == 36:
-        with open("./out/allLinks.txt", "a+") as f:
-            f.write(f"{link}\n")
+    # pag.doubleClick(points["newMeeting"], duration=0.15)
+    pag.press("down")
+    time.sleep(0.15)
+    pag.press("enter")
 
     tToLoad = time.time()
-
-    while True:
-        try:
-            copyX, copyY = pag.center(pag.locate("./images/copy.png", pag.screenshot(
-                region=(1100, 562, 353, 50)), confidence=0.9, grayscale=True))
-            break
-        except TypeError:
-            continue
-
+    copyX, copyY = findImageTimeout(
+        "./images/copy.png", 5, (1100, 562, 353, 50))
     tLoading = time.time() - tToLoad
-    pag.click(copyX + 1100, copyY + 562)
 
-    # pag.click(findImageTimeout("./images/copy.png"))
+    # if no copy button
+    if copyX == -1 or copyY == -1:
+        pag.click(points["cross"])
+        continue
 
-    if count == 0:
-        x, y = findImageTimeout("./images/cross.png")
-        pag.click(x, y)
-    else:
-        pag.click(x, y)
+    pag.click(copyX, copyY)
+    pag.click(points["cross"])
 
-    # ending timer for link generation
-    # tactual = round(time.time() - t1, 3)
-    # try:
-    #     t = timePerLink - (time.time() - t1)
-    #     time.sleep(t)
-    # except ValueError:
-    #     pass
-
+    # calculations
     timeCalc = time.time()
     totalSeconds += round(timeCalc - t1, 3)
     count += 1
@@ -79,12 +40,14 @@ while True:
     if round(timeCalc - t1, 3) < least:
         least = round(timeCalc - t1, 3)
 
-    if count % 1 == 0:
+    link = pyperclip.paste()
+    if len(link) == 36:
 
-        clear()
-    # Padded time: {round(t, 3)}s
-    # Actual time: {tactual}s
-        print(f"""
+        with open("./out/allLinks.txt", "a+") as f:
+            f.write(f"{link}\n")
+
+        with open("./out/out.txt", "w+") as f:
+            f.write(f"""
     Latest link: {link[-12:]}
 
     Links processed this session: {count} links
@@ -99,4 +62,4 @@ while True:
     Time to process a link: {round((timeCalc - t1) - tLoading, 5)}s
     Total time for a link: {round(timeCalc - t1, 3)}s
 
-    Current Time: {datetime.now().strftime('%H:%M:%S')}""")
+    Current Time: {datetime.now().strftime('%H:%M:%S')}\n""")

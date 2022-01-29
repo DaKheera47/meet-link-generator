@@ -8,7 +8,10 @@
 #             f.write(f"{word}\n")
 import time
 import os
-with open("./out/allPossibleWordsCombined.txt", "r") as f:
+# with open("./out/allPossibleWordsCombined.txt", "r") as f:
+#     allWords = f.read().split("\n")
+
+with open("./wordsToSearch/1000CommonWords.txt", "r") as f:
     allWords = f.read().split("\n")
 
 with open("./out/allLinks.txt", "r") as f:
@@ -42,7 +45,7 @@ for i, link in enumerate(links, start=1):
     seconds = time.time() - t1
     totalTime += seconds
 
-    if i % 100 == 0:
+    if i % 250 == 0:
         clear()
         timePerLink = round(totalTime / i, 6)
 

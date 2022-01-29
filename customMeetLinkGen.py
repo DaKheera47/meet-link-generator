@@ -3,7 +3,7 @@ import time
 import cursor
 from datetime import datetime
 import pyperclip
-from helpers import findImageTimeout, clear, writeToFile, findImage
+from helpers import forceFind, clear, writeToFile, findImage
 cursor.hide()
 
 # opening edge
@@ -17,7 +17,7 @@ pag.hotkey("winleft", "up")
 pag.PAUSE = 0.02
 totalSeconds = 0
 count = 0
-reloadX, reloadY = findImageTimeout("./images/reload.png")
+reloadX, reloadY = forceFind("./images/reload.png")
 
 while True:
     t1 = time.time()
@@ -28,13 +28,13 @@ while True:
     pag.press("enter")
 
     # creating a new meeting
-    x, y = findImageTimeout("./images/newMeeting.png")
+    x, y = forceFind("./images/newMeeting.png")
     pag.click(x, y)
     time.sleep(0.5)
     pag.click(x, y + 75)
 
     # as soon as the link appears in url bar
-    findImageTimeout("./images/recording.png")
+    forceFind("./images/recording.png")
     while x != -1 and y != -1:
         x, y = findImage("./images/url.png")
 

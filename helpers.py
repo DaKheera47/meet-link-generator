@@ -3,40 +3,7 @@ import win32clipboard
 import os
 import time
 import pyautogui as pag
-DELAY = 0.45
-
 pag.PAUSE = 0
-
-
-def getCopied():
-    # delay is required as a measure to prevent `ctrl + x` mixing with the hotkey entered
-    time.sleep(DELAY)
-
-    win32clipboard.OpenClipboard()
-    try:
-        # getting current data for resetting clipboard later
-        prevClip = win32clipboard.GetClipboardData()
-    except TypeError:
-        win32clipboard.SetClipboardData(win32clipboard.CF_UNICODETEXT, " ")
-    win32clipboard.CloseClipboard()
-
-    # get currently selected text
-    pag.hotkey("ctrl", "x")
-    time.sleep(0.3)
-
-    # get clipboard data
-    win32clipboard.OpenClipboard()
-    data = win32clipboard.GetClipboardData()
-
-    # resetting clipboard data to previous content
-    try:
-        win32clipboard.SetClipboardData(
-            win32clipboard.CF_UNICODETEXT, prevClip)
-    except:
-        print("line 36: prevClip set error")
-
-    win32clipboard.CloseClipboard()
-    return data
 
 
 def findImage(imageUrl: str, confidence: int = 0.90):
@@ -49,14 +16,7 @@ def findImage(imageUrl: str, confidence: int = 0.90):
     return (x, y)
 
 
-def findImageTimeout(imageUrl: str, grayscale: bool = True):
-    # while True:
-    #     try:
-    #         x, y = pag.locate(
-    #             f"{imageUrl}", pag.screenshot(region=region), confidence=0.9, grayscale=grayscale)
-    #     except TypeError:
-    #         continue
-    #     return (x, y)
+def forceFind(imageUrl: str, grayscale: bool = True):
     while True:
         try:
             x, y = pag.locateCenterOnScreen(
@@ -65,28 +25,40 @@ def findImageTimeout(imageUrl: str, grayscale: bool = True):
             continue
         return (x, y)
 
-    # i = 1
-    # while True:
-    #     if i <= timeout:
-    #         try:
-    #             x, y = pag.locateCenterOnScreen(f"{imageUrl}", confidence=0.9, grayscale=grayscale)
-    #         except TypeError:
-    #             i += 1
-    #             continue
-    #         break
-    #     else:
-    #         return (-1, -1)
-    # return (x, y)
+
+def findImageTimeout(imageUrl: str, timeout: int, region: tuple, grayscale: bool = True):
+    i = 1
+    rate = 8
+
+    while True:
+        if i <= (timeout * rate):
+            try:
+                t1 = time.time()
+
+                if region:
+                    # search in given area
+                    x, y = pag.center(pag.locate(f"{imageUrl}", pag.screenshot(
+                        region=region), confidence=0.9, grayscale=grayscale))
+                    return (x + region[0], y + region[1])
+
+                else:
+                    # search center on screen
+                    x, y = pag.locateCenterOnScreen(
+                        f"{imageUrl}", confidence=0.9, grayscale=grayscale)
+                    return (x, y)
+
+            except TypeError:
+                # make every iteration 1s
+                i += 1
+                try:
+                    # print((1 / rate) - (time.time() - t1))
+                    time.sleep((1 / rate) - (time.time() - t1))
+                except:
+                    continue
+
+        else:
+            return (-1, -1)
 
 
 def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def writeToFile(fileName, openMode, data, alternateOpenMode):
-    try:
-        with open(fileName, openMode) as f:
-            f.write(data)
-    except FileNotFoundError:
-        with open(fileName, alternateOpenMode) as f:
-            f.write(data)
+    os.system("cls" if os.name == "nt" else "clear")

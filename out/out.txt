@@ -1,0 +1,16 @@
+
+    Latest link: tid-yhik-zag
+
+    Links processed this session: 193 links
+    Current session duration: 00:02:28
+    Average time per link: 0.768s
+    Least time this session: 0.713s
+
+    Time for 5000 links: 01:04:00
+    Time till 5000 links: 01:01:31
+
+    Time to load a link: 0.59309s
+    Time to process a link: 0.29262s
+    Total time for a link: 0.886s
+
+    Current Time: 11:10:09
