@@ -1,16 +1,16 @@
 
-    Latest link: tid-yhik-zag
+    Latest link: fup-ieby-rst
 
-    Links processed this session: 193 links
-    Current session duration: 00:02:28
-    Average time per link: 0.768s
-    Least time this session: 0.713s
+    Links processed this session: 8 links
+    Current session duration: 00:00:11
+    Average time per link: 1.395s
+    Least time this session: 0.467s
 
-    Time for 5000 links: 01:04:00
-    Time till 5000 links: 01:01:31
+    Time for 5000 links: 01:56:15
+    Time till 5000 links: 01:56:03
 
-    Time to load a link: 0.59309s
-    Time to process a link: 0.29262s
-    Total time for a link: 0.886s
+    Time to load a link: 1.00352s
+    Time to process a link: 0.36777s
+    Total time for a link: 1.371s
 
-    Current Time: 11:10:09
+    Current Time: 15:56:50

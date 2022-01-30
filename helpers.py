@@ -28,7 +28,7 @@ def forceFind(imageUrl: str, grayscale: bool = True):
 
 def findImageTimeout(imageUrl: str, timeout: int, region: tuple, grayscale: bool = True):
     i = 1
-    rate = 8
+    rate = 10
 
     while True:
         if i <= (timeout * rate):
