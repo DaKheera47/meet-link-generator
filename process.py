@@ -8,13 +8,27 @@
 #             f.write(f"{word}\n")
 import time
 import os
+
+allWords = []
 # with open("./out/allPossibleWordsCombined.txt", "r") as f:
 #     allWords = f.read().split("\n")
 
 with open("./wordsToSearch/1000CommonWords.txt", "r") as f:
-    allWords = f.read().split("\n")
+    allWords += (f.read().split("\n"))
 
-with open("./out/allLinks.txt", "r") as f:
+with open("./wordsToSearch/customFourLetterWords.txt", "r") as f:
+    allWords += (f.read().split("\n"))
+
+with open("./wordsToSearch/customThreeLetterWords.txt", "r") as f:
+    allWords += (f.read().split("\n"))
+
+with open("./wordsToSearch/fourLetterWords.txt", "r") as f:
+    allWords += (f.read().split("\n"))
+
+with open("./wordsToSearch/threeLetterWords.txt", "r") as f:
+    allWords += (f.read().split("\n"))
+
+with open("./out/2024-allLinks.txt", "r") as f:
     links = f.read().split("\n")
 
 
@@ -29,6 +43,7 @@ print(len(links))
 
 for i, link in enumerate(links, start=1):
     t1 = time.time()
+    # print(len(allWords))
 
     for word in allWords:
         if len(word) >= 5 and len(word) <= 10:
@@ -39,7 +54,7 @@ for i, link in enumerate(links, start=1):
                 if len(word) >= longestWordLen:
                     longestWordLen = len(word)
                     longestWord = word
-                with open("./out/foundInWholeLink.txt", "a") as f:
+                with open("./out/2024-foundInWholeLink.txt", "a") as f:
                     f.write(f"{code} - {word}\n")
 
     seconds = time.time() - t1
