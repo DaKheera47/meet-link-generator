@@ -5,10 +5,12 @@ import pyperclip
 from helpers import clear, forceFind, findImage, findImageTimeout, loop_until_image_not_found
 from cv2 import imread
 
+# MODE = "shaheer30"
+MODE = "goodboy"
+
 pag.PAUSE = 0
 points = {
-    # "newMeeting": pag.Point(x=866, y=443),
-    "newMeeting": pag.Point(x=286, y=665),
+    "newMeeting": pag.Point(x=286, y=665) if MODE == "shaheer30" else pag.Point(x=866, y=443),
     "cross": pag.Point(x=1176, y=452),
 }
 REGIONS = {
@@ -18,7 +20,7 @@ REGIONS = {
 
 session_start_time = time.perf_counter()
 
-FILENAME = "./out/2024-allLinks-test.txt"
+FILENAME = "./out/2024-allLinks-test.txt" if MODE == "shaheer30" else "./out/2024-allLinks.txt"
 
 
 class Session:
@@ -139,11 +141,11 @@ Total time for this link:        {round(this.curr_link_total_time, 3)}s
             # Get the copied link
             this.curr_link = pyperclip.paste()
 
-            if (
-                this.curr_link == this.last_link
-                or len(this.curr_link) != 36
-                or this.curr_link == ""
-            ):
+            if this.curr_link == "":  # if the link is empty, skip it
+                continue
+            if this.curr_link == this.last_link:  # if the link is the same as the last link, skip it
+                continue
+            if len(this.curr_link) != 36:  # if the link is not 36 characters long, skip it'
                 continue
 
             # Measure time to process the link
